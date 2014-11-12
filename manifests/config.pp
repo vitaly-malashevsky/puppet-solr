@@ -20,7 +20,12 @@ class solr::config(
   $solr_home      = $solr::params::solr_home,
   ) inherits solr::params {
 
-  $dl_name        = "solr-${version}.tgz"
+  if versioncmp($version, '4.1.0') < 0 {
+    $prefix = 'apache-solr'
+  } else {
+    $prefix = 'solr'
+  }
+  $dl_name        = "${prefix}-${version}.tgz"
   $download_url   = "${mirror}/${version}/${dl_name}"
 
   #Copy the jetty config file
